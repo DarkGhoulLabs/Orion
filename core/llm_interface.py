@@ -13,4 +13,4 @@ def ask_orion(prompt: str)->str:
     resposnse = httpx.post(OLLAMA_URL, json=payload, timeout=60)
 
     result = resposnse.json()
-    return result["respnse"]
+    return result["response"]

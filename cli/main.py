@@ -19,6 +19,7 @@ def main():
             continue
 
         llm_response = ask_orion(user_input)
+        #print("DEBUG LLM RESPONSE:", llm_response)
         result = route_command(llm_response)
 
         print(f"ORION: {result}\n")

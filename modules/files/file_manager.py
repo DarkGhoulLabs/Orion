@@ -1,6 +1,6 @@
 import os
 import shutil
-from core.intent_registry import register_intent
+from core.intent_registry import register_tool
 
 CURRENT_DIR = os.getcwd()
 
@@ -38,9 +38,6 @@ def file_action(args):
             if not os.path.exists(full_path):
                 return "File not found."
             
-            if not args.get("confrim"):
-                return f"CONFIRM_DELETE: {name}"
-            
             os.remove(full_path)
             return f"File '{name}' deleted."
         
@@ -65,4 +62,18 @@ def file_action(args):
     except Exception as e:
         return f"File error: {str(e)}"
     
-register_intent("file_action", file_action)
+
+register_tool(
+    name="file_action",
+    description="Perform file operations like create, delete, rename, move, list all files.",
+    parameters={
+        "action": "create_folder | list_files | delete_file | rename_file | move_file | change_directory",
+        "name": "file or folder name",
+        "new_name": "new file name if renaming",
+        "destination": "target path for moving",
+        "path": "directory path",
+        "confirm": "boolean for deletion confirmation"
+    },
+    handler=file_action,
+    risk_level="moderate"
+)

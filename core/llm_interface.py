@@ -1,11 +1,12 @@
 import httpx
-from core.prompt_manager import SYSTEM_PROMPT
+from core.prompt_manager import build_system_prompt
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL_NAME = "mistral"
 
 def ask_orion(user_input: str)->str:
-    full_prompt = SYSTEM_PROMPT + "\nUser: " + user_input
+    system_prompt = build_system_prompt()
+    full_prompt = system_prompt + "\nUser: " + user_input
 
     payload = {
         "model": MODEL_NAME,
@@ -15,5 +16,4 @@ def ask_orion(user_input: str)->str:
 
     resposnse = httpx.post(OLLAMA_URL, json=payload, timeout=60)
 
-    result = resposnse.json()
-    return result["response"]
+    return resposnse.json()["response"]

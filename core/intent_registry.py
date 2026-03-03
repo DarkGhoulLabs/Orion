@@ -1,8 +1,15 @@
-INTENT_REGISTRY = {}
+TOOLS = {}
 
-def register_intent(intent_name, handler_function):
-    #print(f"REGISTERING INTENT: {intent_name}")
-    INTENT_REGISTRY[intent_name] = handler_function
+def register_tool(name, description, parameters, handler, risk_level="safe"):
+    TOOLS[name] = {
+        "description": description,
+        "parameters": parameters,
+        "handler": handler,
+        "risk_level": risk_level
+    }
 
-def get_handler(intent_name):
-    return INTENT_REGISTRY.get(intent_name)
+def get_tool(name):
+    return TOOLS.get(name)
+
+def get_all_tools():
+    return TOOLS

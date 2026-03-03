@@ -2,3 +2,6 @@ requests
 rich
 typer
 httpx
+pyautogui
+os
+shutil

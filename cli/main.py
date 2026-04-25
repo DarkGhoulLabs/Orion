@@ -1,6 +1,7 @@
 from core.llm_interface import ask_orion
 from core.command_router import route_command
 from core.state_manager import get_pending
+from core.controller import execute_request
 
 def main():
     print("ORION online. Type 'exit' to quit\n")
@@ -18,9 +19,7 @@ def main():
             print(f"ORION: {result}\n")
             continue
 
-        llm_response = ask_orion(user_input)
-        #print("DEBUG LLM RESPONSE:", llm_response)
-        result = route_command(llm_response)
+        result = execute_request(user_input)
 
         print(f"ORION: {result}\n")
 

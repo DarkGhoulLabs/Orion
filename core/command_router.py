@@ -7,7 +7,10 @@ from core.argument_validator import validate_arguments
 
 import modules.browser.browser_manager
 import modules.files.file_manager
-
+import modules.dev.project_analyzer
+import modules.dev.file_reader
+import modules.dev.code_analyzer
+import modules.dev.debugger
 
 def route_command(orion_response: str):
     pending = get_pending()
@@ -48,7 +51,7 @@ def route_command(orion_response: str):
                             call_args["action"] = next_step["intent"]
                         result = tool["handler"](call_args)
                         results.append(result)
-                return "\n".join(results)
+                return str(results[-1]) if results else ""
             else:
                 clear_pending()
                 return "Plan cancelled."
@@ -99,9 +102,7 @@ def route_command(orion_response: str):
                 })
                 return f"Proposed Step:\n{step}\nApprove plan? (yes/no)"
             
-        if len(results) == 1:
-            return str(results[0])
-        return "\n".join(str(r) for r in results if r is not None)
+        return str(results[-1]) if results else ""
     
     intent = data.get("intent")
     args = data.get("arguments", {})

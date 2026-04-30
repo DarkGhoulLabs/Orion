@@ -8,6 +8,11 @@ from core.intent_registry import get_tool
 from core.command_normalizer import normalize_command
 from core.json_validator import validate_and_parse_json
 
+def detect_intent(command: str):
+    if "project" in command and ("analyze" in command or "structure" in command):
+        return "analyze_project"
+    return None
+
 def execute_request(user_input):
     normalized_command = normalize_command(user_input)
 
@@ -31,10 +36,6 @@ def execute_request(user_input):
 
     single_word_keywords = {
         "organize",
-        "analyze",
-        "explore",
-        "search",
-        "process",
         "multiple",
     }
 
@@ -48,6 +49,17 @@ def execute_request(user_input):
     ):
         return run_agent_loop(user_input)
     
+    intent = detect_intent(normalized_command)
+    if intent:
+        return route_command(json.dumps({
+            "plan": [
+                {
+                    "intent": intent,
+                    "arguments": {}
+                }
+            ]
+        }))
+
     llm_response = ask_orion(user_input, mode="plan")
     json_payload = llm_response.strip()
     validated = validate_and_parse_json(json_payload)

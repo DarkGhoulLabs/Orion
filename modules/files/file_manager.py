@@ -106,7 +106,7 @@ def analyze_directory(args):
     analysis = {
         "python": 0,
         "text": 0,
-        "image": 0,
+        "images": 0,
         "other": 0
     }
 
@@ -121,6 +121,45 @@ def analyze_directory(args):
             analysis["other"] += 1
     
     return str(analysis)
+
+
+def organize_files(args):
+    target = CURRENT_DIR
+
+    folders = {
+        "Images": {".jpg", ".jpeg", ".png"},
+        "Documents": {".txt", ".pdf"},
+        "Code": {".py"},
+        "Others": set(),
+    }
+
+    # Ensure folders exist
+    for folder in folders.keys():
+        os.makedirs(os.path.join(target, folder), exist_ok=True)
+
+    moved = 0
+    used_folders = set()
+
+    for entry in os.listdir(target):
+        src = os.path.join(target, entry)
+        if not os.path.isfile(src):
+            continue
+
+        ext = os.path.splitext(entry)[1].lower()
+        dest_folder = "Others"
+        for folder, exts in folders.items():
+            if folder != "Others" and ext in exts:
+                dest_folder = folder
+                break
+
+        dest_dir = os.path.join(target, dest_folder)
+        dest = os.path.join(dest_dir, entry)
+        shutil.move(src, dest)
+        moved += 1
+        used_folders.add(dest_folder)
+
+    return f"Moved {moved} files into {len(used_folders)} folders"
+
 
 register_tool(
     name="file_action",
@@ -139,8 +178,16 @@ register_tool(
 
 register_tool(
     name="analyze_directory",
-    description="Analyze files in the current directory and categorize them by type",
+    description="Analyze file types in the current directory (counts of python, text, images, etc).",
     parameters=(),
     handler=analyze_directory,
     risk_level="safe"
+)
+
+register_tool(
+    name="organize_files",
+    description="Organize files in the current directory into folders by type.",
+    parameters=(),
+    handler=organize_files,
+    risk_level="moderate"
 )

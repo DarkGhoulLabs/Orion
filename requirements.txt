@@ -5,3 +5,5 @@ httpx
 pyautogui
 os
 shutil
+shlex
+subprocess

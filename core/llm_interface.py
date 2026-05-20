@@ -2,7 +2,7 @@ import httpx
 from core.prompt_manager import build_system_prompt
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "deepseek-coder:6.7b"
+MODEL_NAME = "qwen2.5:7b"
 
 def ask_orion(user_input: str, mode="plan"):
     system_prompt = build_system_prompt(mode=mode)

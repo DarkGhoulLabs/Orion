@@ -1,8 +1,13 @@
 import os
 import shutil
 from core.intent_registry import register_tool
+from core.memory_manager import remember, recall
 
 CURRENT_DIR = os.getcwd()
+
+_saved_dir = recall("current_directory")
+if isinstance(_saved_dir, str) and os.path.isdir(_saved_dir):
+    CURRENT_DIR = _saved_dir
 
 def file_action(args):
     print("FILE_MANAGER CALLED")
@@ -46,6 +51,7 @@ def file_action(args):
                 return "Invalid path"
             os.chdir(path)
             CURRENT_DIR = path
+            remember("current_directory", CURRENT_DIR)
             return f"Changed directory to {path}"
         
         elif action == "list_files":

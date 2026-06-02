@@ -13,7 +13,7 @@ def ask_orion(user_input: str, mode="plan"):
         "prompt": full_prompt,
         "stream": False,
         "options": {
-            "num_predict": 256,
+            "num_predict": 128,
             "temperature": 0.2
         }
     }
@@ -22,6 +22,8 @@ def ask_orion(user_input: str, mode="plan"):
         response = httpx.post(OLLAMA_URL, json=payload, timeout=180)
     except httpx.ReadTimeout:
         return "LLM timeout, try again"
+    except httpx.ConnectError:
+        return "Cannot connect to Ollam. Is Ollama running?"
 
     try:
         data = response.json()
@@ -30,6 +32,9 @@ def ask_orion(user_input: str, mode="plan"):
         print("Status:", response.status_code)
         print("Body:", response.text)
         return "Error: Unexpected LLM response format"
+
+    if isinstance(data, dict) and "error" in data:
+        return f"LLM Error: {data['error']}"
 
     if isinstance(data, dict) and "response" in data:
         return data["response"]

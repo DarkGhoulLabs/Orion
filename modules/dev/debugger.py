@@ -4,6 +4,7 @@ import httpx
 
 from core.intent_registry import register_tool
 from core.llm_interface import MODEL_NAME, OLLAMA_URL
+from core.memory_manager import get_current_file, remember_active_task, remember_current_file
 
 
 def _extract_llm_text(data) -> str:
@@ -21,7 +22,11 @@ def debug_code(args):
     if isinstance(args, dict):
         path = args.get("path")
 
-    if not path or not isinstance(path, str) or not os.path.exists(path):
+    if not path:
+        path = get_current_file()
+    if not path:
+        return "No active file"
+    if not isinstance(path, str) or not os.path.exists(path):
         return "File not found"
 
     try:
@@ -69,6 +74,8 @@ def debug_code(args):
     text = _extract_llm_text(data)
     if not text:
         return "Error: Unexpected LLM response format"
+    remember_current_file(path)
+    remember_active_task("debugging")
     return text
 
 

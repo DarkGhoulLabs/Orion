@@ -1,6 +1,7 @@
 import os
 
 from core.intent_registry import register_tool
+from core.memory_manager import remember_active_task, remember_current_file
 
 
 def read_file(args):
@@ -17,6 +18,8 @@ def read_file(args):
     try:
         with open(path, "r", encoding="utf-8", errors="replace") as f:
             content = f.read(3000)
+        remember_current_file(path)
+        remember_active_task("reading")
         return content
     except Exception as e:
         return f"Error reading file: {str(e)}"

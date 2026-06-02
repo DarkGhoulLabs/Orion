@@ -4,6 +4,7 @@ import httpx
 
 from core.intent_registry import register_tool
 from core.llm_interface import MODEL_NAME, OLLAMA_URL
+from core.memory_manager import remember_project
 import modules.files.file_manager as file_manager
 
 
@@ -169,6 +170,12 @@ def summarize_repository(args):
     text = _extract_llm_text(data)
     if not text:
         return "Error: Unexpected LLM response format"
+
+    remember_project(
+        os.path.basename(os.getcwd()),
+        os.getcwd(),
+        text,
+    )
     return text
 
 

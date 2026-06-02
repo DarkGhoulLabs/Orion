@@ -15,6 +15,11 @@ import modules.dev.organizer
 import modules.dev.terminal_executor
 import modules.dev.project_setup
 import modules.dev.repo_summarizer
+import modules.dev.recent_activity
+import modules.dev.project_memory
+import modules.dev.development_status
+import modules.dev.goal_manager
+import modules.dev.workspace_context
 
 def route_command(orion_response: str):
     pending = get_pending()

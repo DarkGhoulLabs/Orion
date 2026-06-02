@@ -159,6 +159,31 @@ Output:
   ]
 }}
 
+GOAL MEMORY EXAMPLES:
+User: my goal is to add git intelligence
+Output:
+{{
+  "plan": [
+    {{
+      "intent": "set_goal",
+      "arguments": {{
+        "goal": "add git intelligence"
+      }}
+    }}
+  ]
+}}
+
+User: what is my current goal
+Output:
+{{
+  "plan": [
+    {{
+      "intent": "show_goal",
+      "arguments": {{}}
+    }}
+  ]
+}}
+
 EXAMPLES:
 User: open youtube
 Output:

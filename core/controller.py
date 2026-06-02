@@ -7,6 +7,7 @@ from core.agent_loop import run_agent_loop
 from core.intent_registry import get_tool
 from core.command_normalizer import normalize_command
 from core.json_validator import validate_and_parse_json
+from core.memory_manager import remember_command
 
 def detect_intent(command: str):
     if "project" in command and ("analyze" in command or "structure" in command):
@@ -14,6 +15,7 @@ def detect_intent(command: str):
     return None
 
 def execute_request(user_input):
+    remember_command(user_input)
     normalized_command = normalize_command(user_input)
 
     # if normalized_command.startswith('list files'):

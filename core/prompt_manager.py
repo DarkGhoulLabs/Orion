@@ -184,6 +184,20 @@ Output:
   ]
 }}
 
+DEPENDENCY EXAMPLES:
+User: analyze dependencies core/controller.py
+Output:
+{{
+  "plan": [
+    {{
+      "intent": "analyze_dependencies",
+      "arguments": {{
+        "path": "core/controller.py"
+      }}
+    }}
+  ]
+}}
+
 EXAMPLES:
 User: open youtube
 Output:

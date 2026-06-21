@@ -20,6 +20,8 @@ import modules.dev.project_memory
 import modules.dev.development_status
 import modules.dev.goal_manager
 import modules.dev.workspace_context
+import modules.dev.git_intelligence
+import modules.dev.dependency_analyzer
 
 def route_command(orion_response: str):
     pending = get_pending()

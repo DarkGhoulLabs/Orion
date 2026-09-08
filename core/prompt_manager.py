@@ -198,6 +198,28 @@ Output:
   ]
 }}
 
+User: show project graph
+Output:
+{{
+  "plan": [
+    {{
+      "intent": "show_project_graph",
+      "arguments": {{}}
+    }}
+  ]
+}}
+
+User: analyze module relationships
+Output:
+{{
+  "plan": [
+    {{
+      "intent": "analyze_module_relationships",
+      "arguments": {{}}
+    }}
+  ]
+}}
+
 EXAMPLES:
 User: open youtube
 Output:
